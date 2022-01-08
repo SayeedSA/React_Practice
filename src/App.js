@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 //import logo from './logo.svg';
 import './App.css';
 import Book from './components/Book';
@@ -129,6 +129,8 @@ function App() {
   return(
     <div className='App'>
         <header className='App-header'>
+          <Counter></Counter>
+          <Users></Users>
           <p>Sayeed</p>
 
           <ul>
@@ -149,6 +151,40 @@ function App() {
     </div>
   )
 }
+function Users() {
+  const [users, setUsers] =useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data))
+  })
+  return(
+    <div>
+      <h3>Dynamic Usres: {users.length}</h3>
+      <ul>
+        {
+          users.map(user => <li>{user.name},{user.email}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
+function Counter () {
+  const [count, setCount] = useState(0);
+  const handleDecrease = () => setCount(count-1);
+  const handleIncrease = () => setCount(count+1);
+  
+  return(
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={handleDecrease}>Decrease</button>
+      <button onClick={handleIncrease}>Increase</button>
+    </div>
+  )
+}
+
+
 function Friend(props) {
   const frameStyle={
     border:'1px solid grey',
